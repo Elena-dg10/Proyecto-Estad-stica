@@ -68,6 +68,24 @@ plot <- fviz_pca_biplot(pca_result,
 )
 plot
 
+# He probado este código y a mi me funciona (Elena): de la línea 72 a la 87.
+if (!require(factoextra)) install.packages("factoextra")
+library(factoextra)
+library(ggplot2)
+
+# Crear el gráfico
+plot <- fviz_pca_biplot(pca_result,
+                        geom.ind = "point",
+                        col.ind = "black",
+                        pointsize = 2,
+                        addEllipses = TRUE,
+                        alpha.var = "contrib",
+                        col.var = "contrib",
+                        repel = TRUE)
+
+# Guardar el gráfico en un archivo
+ggsave("pca_biplot.png", plot = plot, width = 10, height = 7)
+
 # Porcentaje de varianza para cada componente principal
 pca.var <- pca_result$sdev^2
 pca.var.per <- round(pca.var/sum(pca.var)*100, 1)
@@ -98,4 +116,11 @@ print(pca_result$rotation[,2]) # Cargas de cada variable para el componente 2
 
 ### La salida de la línea 47 sería para la tabla 2. podemos poner los 10 primeros componentes
 ### La rotación de cargas de las líneas 87 y 93 serían para la tabla 3
+
+# Miro la importancia de las variables para componente 1: (ELENA lineas 120 hasta 125)
+# fviz_contrib(cargas_pc1, choice = "var", axes = 1, top = 10)
+library(factoextra)
+
+# Visualizar las contribuciones de las variables al primer componente principal
+fviz_contrib(pca_result, choice = "var", axes = 1, top = 10)
 
