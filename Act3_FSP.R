@@ -46,10 +46,11 @@ pca_result <- prcomp(t(data_pca), scale. = TRUE)
 print(summary(pca_result)) # Muestra los valores de las componentes principales
 
 # Evaluamos la adecuación de los datos para PCA según el criterio de KMO
-### NO CONSIGO QUE FUNCIONE ESTO. LO PODEMOS QUITAR SI NO FUNCIONA
-# library(psych)
-# KMO(r = t(data_pca))
-# print(kmo_result)  # Aceptable según el criterio de KMO
+### YA FUNCIONA CREO. ELENA.
+install.packages("psych")
+library(psych)
+KMO_RESULTADO <- KMO(r = data_pca)
+print(KMO_RESULTADO)  # Aceptable según el criterio de KMO
 
 
 # Representación gráfica de los dos componentes principales de PCA
