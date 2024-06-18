@@ -6,19 +6,15 @@ library(tidyverse)
 
 # Importación y procesado de datos
 data_act3 <- read.csv("mubio02_act3_alimentos_nutrientes_4900.csv",
-                      header = TRUE, stringsAsFactors = FALSE, sep = ",") %>%
+                      header = TRUE, stringsAsFactors = TRUE, sep = ",") %>%
   subset(select = -id)
 
-# Convertir los valores se las columnas según el tipo de variable (numérica o categórica)
-data_act3 <- data_act3 %>%
-  mutate(ECV_prev = as.factor(sexo)) %>%
-  mutate_at(vars(estado_civil:cancer_prev), as.factor)
-data_act3 <- data_act3 %>%
-  mutate_at(vars(altura:IMC), as.numeric) %>%
-  mutate(edad = as.numeric(edad)) %>%
-  mutate_at(vars(METs_h_semana:nutriente19), as.numeric)
-
+# Seleccionar las columnas relevantes (alimento y nutriente)
+alimentos_nutrientes <- data_act3 %>% 
+  select(starts_with("alimento"), starts_with("nutriente"))
 alimentos_nutrientes <- data_act3[,27:ncol(data_act3)]
+# Asegurarse de que no hay valores nulos
+any(is.na(alimentos_nutrientes))
 
 # Estandarización de datos antes de PCA
 func_estandarizacion <- function(df) {
